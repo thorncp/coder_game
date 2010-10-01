@@ -1,0 +1,5 @@
+= About
+This is meant to be a simple game written in Ruby for a show and tell.
+
+=Requirements 
+* [gosu](http://www.libgosu.org/ "gosu")
