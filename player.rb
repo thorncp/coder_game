@@ -3,9 +3,10 @@ class Player
   
   ImageFileName = "media/CptnRuby.png"
   ImageSize = 50
-  HeadRoom = ImageSize - 5 # this is the buffer of how high into an object the player can jump
+  HeadRoom = 5 # this is the buffer of how high into an object the player can jump
   BobbleInterval = 200
   GravityAcceleration = 1
+  JumpStrength = 13
 
   def initialize(window, x, y)
     @x, @y = x, y
@@ -24,13 +25,8 @@ class Player
   end
   
   def draw
-    
-    
-    
     draw_image
   end
-  
-  
   
   def update(delta_x)
     @moving = false
@@ -44,6 +40,7 @@ class Player
     end
     
     fall
+    select_image
   end
   
   def moving?
@@ -69,7 +66,7 @@ class Player
   def jump
     # if there's ground under our feet, we can jump
     if solid? 0, 1
-      @velocity_y = -20
+      @velocity_y = -JumpStrength
     end
   end
   
@@ -86,7 +83,7 @@ class Player
   end
   
   def solid?(delta_x, delta_y)
-    @map.solid?(@x + delta_x, @y + delta_y) or @map.solid?(@x + delta_x, @y + delta_y - HeadRoom)
+    @map.solid?(@x + delta_x, @y + delta_y) or @map.solid?(@x + delta_x, @y + delta_y - (ImageSize - HeadRoom))
   end
   
   def select_image
@@ -102,8 +99,6 @@ class Player
   end
   
   def draw_image
-    select_image
-    
     if @dir == :left
       offs_x = -ImageSize / 2
       factor = 1.0

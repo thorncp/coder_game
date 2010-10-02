@@ -10,7 +10,7 @@ class Game < Gosu::Window
     @map = Map.new(self, "media/CptnRuby Map.txt")
     @player = Player.new(self, 400, 100)
     # The scrolling position is stored as top left corner of the screen.
-    @camera_x = @camera_y = 0
+    @camera_x, @camera_y = 0, 10
   end
   
   def update
@@ -22,7 +22,7 @@ class Game < Gosu::Window
     
     # Scrolling follows player
     @camera_x = [[@player.x - @resolution_x / 2, 0].max, @map.width * 50 - @resolution_x].min
-    @camera_y = [[@player.y - @resolution_y / 2, 0].max, @map.height * 50 - @resolution_y].min
+    #@camera_y = [[@player.y - @resolution_y / 2, 0].max, @map.height * 50 - @resolution_y].min
   end
   
   def draw
