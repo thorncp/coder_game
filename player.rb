@@ -6,7 +6,7 @@ class Player
   HeadRoom = 5 # this is the buffer of how high into an object the player can jump
   BobbleInterval = 200
   GravityAcceleration = 1
-  JumpStrength = 13
+  JumpStrength = 14
 
   def initialize(window, x, y)
     @x, @y = x * ImageSize + ImageSize / 2, y * ImageSize + (ImageSize - HeadRoom)
@@ -56,7 +56,7 @@ class Player
   end
   
   def move(delta_x = 0, delta_y = 0)
-    unless solid?(delta_x, delta_y)
+    if !solid?(delta_x, delta_y) or solid?(0, 0)
       @x += delta_x
       @y += delta_y
       @moving ||= true

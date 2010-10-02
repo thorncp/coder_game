@@ -60,10 +60,11 @@ class Map
   end
   
   def action(element)
-    x, y = element.x / 50, element.y / 50
+    offset = element.dir == :left ? 25 : -25
+    x, y = (element.x + offset) / 50, (element.y - 25) / 50
     
     x += element.dir == :left ? -1 : 1
-    
+    puts [x,y].inspect + @tiles[x][y].inspect
     @tiles[x][y].action(element) if @tiles[x][y]
   end
   
