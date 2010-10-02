@@ -6,6 +6,7 @@ class Door < Resource
   end
   
   def draw(x, y, z)
+    @locked = (Gosu::milliseconds / 5000).even?
     image = locked? ? @locked_image : @unlocked_image
     image.draw(x, y, z)
   end
