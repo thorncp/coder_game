@@ -3,6 +3,7 @@ class Player
   
   ImageFileName = "media/CptnRuby.png"
   ImageSize = 50
+  HeadRoom = ImageSize - 5 # this is the buffer of how high into an object the player can jump
   BobbleInterval = 200
   GravityAcceleration = 1
 
@@ -58,7 +59,7 @@ class Player
   end
   
   def move(delta_x = 0, delta_y = 0)
-    unless @map.solid?(@x + delta_x, @y + delta_y)
+    unless solid?(delta_x, delta_y)
       @x += delta_x
       @y += delta_y
       @moving ||= true
@@ -67,7 +68,7 @@ class Player
 
   def jump
     # if there's ground under our feet, we can jump
-    if @map.solid? @x, @y + 1
+    if solid? 0, 1
       @velocity_y = -20
     end
   end
@@ -80,8 +81,12 @@ class Player
     delta_y = @velocity_y > 0 ? 1 : -1
     
     @velocity_y.abs.times do
-      @map.solid?(@x, @y + delta_y) ? @velocity_y = 0 : move(0, delta_y)
+      solid?(0, delta_y) ? @velocity_y = 0 : move(0, delta_y)
     end
+  end
+  
+  def solid?(delta_x, delta_y)
+    @map.solid?(@x + delta_x, @y + delta_y) or @map.solid?(@x + delta_x, @y + delta_y - HeadRoom)
   end
   
   def select_image
