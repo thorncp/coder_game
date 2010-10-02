@@ -4,16 +4,18 @@ class Player
   ImageFileName = "media/CptnRuby.png"
   ImageSize = 50
   BobbleInterval = 200
+  GravityAcceleration = 1
 
   def initialize(window, x, y)
     @x, @y = x, y
     @dir = :left
+    @velocity_y = 0
     
     @map = window.map
     
     # Load all animation frames
     images = Gosu::Image.load_tiles(window, ImageFileName, ImageSize, ImageSize, false)
-    @images = Hash[[:standing, :bobble1, :bobble2, :jump].zip(images)]
+    @images = Hash[[:standing, :bobble1, :bobble2, :jumping].zip(images)]
     
     # This always points to the frame that is currently drawn.
     # This is set in update, and used in draw.
@@ -21,16 +23,13 @@ class Player
   end
   
   def draw
-    if @dir == :left
-      offs_x = -ImageSize / 2
-      factor = 1.0
-    else
-      offs_x = ImageSize / 2
-      factor = -1.0
-    end
     
-    @cur_image.draw(@x + offs_x, @y - ImageSize - 1, 0, factor, 1.0)
+    
+    
+    draw_image
   end
+  
+  
   
   def update(delta_x)
     @moving = false
@@ -43,17 +42,15 @@ class Player
       move delta_x, 0
     end
     
-    if moving?
-      # bobble the sprite
-      @cur_image = bobble? ? @images[:bobble1] : @images[:bobble2]
-    else
-      # stand still
-      @cur_image = @images[:standing]
-    end
+    fall
   end
   
   def moving?
     @moving
+  end
+  
+  def jumping?
+    @velocity_y < 0
   end
   
   def bobble?
@@ -66,5 +63,50 @@ class Player
       @y += delta_y
       @moving ||= true
     end
+  end
+
+  def jump
+    # if there's ground under our feet, we can jump
+    if @map.solid? @x, @y + 1
+      @velocity_y = -20
+    end
+  end
+  
+  def fall
+    # rudimentary gravity
+    @velocity_y += GravityAcceleration
+    
+    # positive means we're falling
+    delta_y = @velocity_y > 0 ? 1 : -1
+    
+    @velocity_y.abs.times do
+      @map.solid?(@x, @y + delta_y) ? @velocity_y = 0 : move(0, delta_y)
+    end
+  end
+  
+  def select_image
+    if jumping?
+      @cur_image = @images[:jumping]
+    elsif moving?
+      # bobble the sprite
+      @cur_image = bobble? ? @images[:bobble1] : @images[:bobble2]
+    else
+      # stand still
+      @cur_image = @images[:standing]
+    end
+  end
+  
+  def draw_image
+    select_image
+    
+    if @dir == :left
+      offs_x = -ImageSize / 2
+      factor = 1.0
+    else
+      offs_x = ImageSize / 2
+      factor = -1.0
+    end
+    
+    @cur_image.draw(@x + offs_x, @y - ImageSize - 1, 0, factor, 1.0)
   end
 end

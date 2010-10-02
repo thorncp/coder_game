@@ -34,6 +34,9 @@ class Game < Gosu::Window
   end
   
   def button_down(id)
-    if id == Gosu::KbEscape then close end
+    case id
+      when Gosu::KbEscape then close
+      when Gosu::KbUp then @player.jump
+    end
   end
 end
