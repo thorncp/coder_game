@@ -9,4 +9,8 @@ class CollectibleGem < Tile
     # Draw, slowly rotating
     @image.draw_rot(x + 25, y + 25, z, 25 * Math.sin(Gosu::milliseconds / 133.7))
   end
+  
+  def hit(projectile)
+    true
+  end
 end

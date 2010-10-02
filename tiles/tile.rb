@@ -17,4 +17,8 @@ class Tile
   
   def action(actor)
   end
+  
+  def hit(element)
+    false
+  end
 end

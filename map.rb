@@ -45,7 +45,14 @@ class Map
   end
   
   def update(player)
-    @projectiles.reject! { |p| solid?(p.next_x, p.y - 25) }
+    @projectiles.reject! do |p|
+      x, y = p.next_x, p.y - 25
+      tile = tile_at(x, y)
+      if tile
+        remove_tile(x, y) if tile.hit(p)
+        true
+      end
+    end
   end
   
   def draw(x)
@@ -90,5 +97,13 @@ class Map
   def solid?(x, y)
     tile = @tiles[x / 50][y / 50]
     y < 0 || tile && !tile.passable?
+  end
+  
+  def remove_tile(x, y)
+    @tiles[x / 50][y / 50] = nil
+  end
+  
+  def tile_at(x, y)
+    @tiles[x / 50][y / 50]
   end
 end
