@@ -73,7 +73,14 @@ class Map
     hil = left * 50 + 25
     hir = right * 50 + 25
     
-    @projectiles.each(&:draw)
+    @projectiles.reject! do |p|
+      if (left..right).include?(p.x / 50)
+        p.draw
+        false
+      else
+        true
+      end
+    end
     
     #@gems.select{ |g| (hil..hir).include? g.x }.each { |c| c.draw }
   end
