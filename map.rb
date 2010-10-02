@@ -12,6 +12,12 @@ class Map
     @tile_images[:unlocked_door] = Gosu::Image.new(window, "media/unlocked_door.png", false)
     @tile_images[:gem] = Gosu::Image.new(window, "media/CptnRuby Gem.png", false)
     
+    @projectile_assets = Hash.new { |h,k| h[k] = {} }
+    @projectile_assets[:code][:class] = Code
+    @projectile_assets[:code][:image] = Gosu::Image.new(window, "media/code.png", false)
+    
+    @projectiles = []
+    
     lines = File.readlines(filename).map { |line| line.chomp }
     @height = lines.size
     @width = lines[0].size
@@ -38,6 +44,10 @@ class Map
     @block_width = @window.width / @width
   end
   
+  def update(player)
+    @projectiles.reject! { |p| solid?(p.next_x, p.y - 25) }
+  end
+  
   def draw(x)
     left = [[x / 50 - @block_width / 2 - 2, 0].max, @width - @block_width - 2].min
     right = [left + @block_width + 4, @width - 1].min
@@ -56,16 +66,24 @@ class Map
     hil = left * 50 + 25
     hir = right * 50 + 25
     
+    @projectiles.each(&:draw)
+    
     #@gems.select{ |g| (hil..hir).include? g.x }.each { |c| c.draw }
   end
   
   def action(element)
     offset = element.dir == :left ? 25 : -25
+    
     x, y = (element.x + offset) / 50, (element.y - 25) / 50
     
     x += element.dir == :left ? -1 : 1
-    puts [x,y].inspect + @tiles[x][y].inspect
+    
     @tiles[x][y].action(element) if @tiles[x][y]
+  end
+  
+  def fire(element, x, y, dir)
+    projectile = @projectile_assets[element]
+    @projectiles << projectile[:class].new(projectile[:image], x, y, dir)
   end
   
   # Solid at a given pixel position?

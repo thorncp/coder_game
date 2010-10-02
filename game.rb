@@ -23,6 +23,8 @@ class Game < Gosu::Window
     # Scrolling follows player
     @camera_x = [[@player.x - @resolution_x / 2, 0].max, @map.width * 50 - @resolution_x].min
     #@camera_y = [[@player.y - @resolution_y / 2, 0].max, @map.height * 50 - @resolution_y].min
+    
+    @map.update(@player)
   end
   
   def draw
@@ -38,6 +40,7 @@ class Game < Gosu::Window
       when Gosu::KbEscape then close
       when Gosu::KbUp then @player.jump
       when Gosu::KbF then action
+      when Gosu::KbSpace then @player.fire
     end
   end
   

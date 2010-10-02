@@ -98,6 +98,10 @@ class Player
     end
   end
   
+  def fire
+    @map.fire(:code, @x, @y, @dir)
+  end
+  
   def draw_image
     if @dir == :left
       offs_x = -ImageSize / 2
