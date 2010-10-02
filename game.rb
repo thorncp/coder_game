@@ -1,11 +1,11 @@
 class Game < Gosu::Window
-  attr_reader :map
+  attr_reader :map, :resolution_x, :resolution_y
 
   def initialize
     @resolution_x = 640
     @resolution_y = 480
     super(@resolution_x, @resolution_y, false)
-    self.caption = "Cptn. Ruby"
+    self.caption = "Code or Die: The Uncoded One"
     @sky = Gosu::Image.new(self, "media/Space.png", true)
     @map = Map.new(self, "media/CptnRuby Map.txt")
     @player = Player.new(self, @map.start_position[:x], @map.start_position[:y])
@@ -28,7 +28,7 @@ class Game < Gosu::Window
   def draw
     @sky.draw 0, 0, 0
     translate(-@camera_x, -@camera_y) do
-      @map.draw
+      @map.draw(@player.x)
       @player.draw
     end
   end
