@@ -1,0 +1,5 @@
+require_relative "tiles/tile"
+require_relative "tiles/collectible_gem"
+require_relative "tiles/dirt"
+require_relative "tiles/grass"
+require_relative "tiles/door"
