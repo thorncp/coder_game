@@ -14,4 +14,7 @@ class Tile
       true
     end
   end
+  
+  def action(actor)
+  end
 end

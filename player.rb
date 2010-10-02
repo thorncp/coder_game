@@ -1,5 +1,5 @@
 class Player
-  attr_reader :x, :y
+  attr_reader :x, :y, :dir
   
   ImageFileName = "media/CptnRuby.png"
   ImageSize = 50

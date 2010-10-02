@@ -37,6 +37,11 @@ class Game < Gosu::Window
     case id
       when Gosu::KbEscape then close
       when Gosu::KbUp then @player.jump
+      when Gosu::KbF then action
     end
+  end
+  
+  def action
+    @map.action(@player)
   end
 end

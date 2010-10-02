@@ -59,6 +59,14 @@ class Map
     #@gems.select{ |g| (hil..hir).include? g.x }.each { |c| c.draw }
   end
   
+  def action(element)
+    x, y = element.x / 50, element.y / 50
+    
+    x += element.dir == :left ? -1 : 1
+    
+    @tiles[x][y].action(element) if @tiles[x][y]
+  end
+  
   # Solid at a given pixel position?
   def solid?(x, y)
     tile = @tiles[x / 50][y / 50]

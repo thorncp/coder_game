@@ -6,7 +6,6 @@ class Door < Tile
   end
   
   def draw(x, y, z)
-    @locked = (Gosu::milliseconds / 5000).even?
     image = locked? ? @locked_image : @unlocked_image
     image.draw(x, y, z)
   end
@@ -17,5 +16,9 @@ class Door < Tile
   
   def passable?
     not locked?
+  end
+  
+  def action(actor)
+    @locked = !@locked
   end
 end
