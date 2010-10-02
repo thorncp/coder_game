@@ -5,12 +5,12 @@ class Map
     @window = window
     
     ground = Gosu::Image.load_tiles(window, "media/CptnRuby Tileset.png", 60, 60, true)
-    @resources = {}
-    @resources[:grass] = ground[0]
-    @resources[:dirt] = ground[1]
-    @resources[:locked_door] = Gosu::Image.new(window, "media/locked_door.png", false)
-    @resources[:unlocked_door] = Gosu::Image.new(window, "media/unlocked_door.png", false)
-    @resources[:gem] = Gosu::Image.new(window, "media/CptnRuby Gem.png", false)
+    @tile_images = {}
+    @tile_images[:grass] = ground[0]
+    @tile_images[:dirt] = ground[1]
+    @tile_images[:locked_door] = Gosu::Image.new(window, "media/locked_door.png", false)
+    @tile_images[:unlocked_door] = Gosu::Image.new(window, "media/unlocked_door.png", false)
+    @tile_images[:gem] = Gosu::Image.new(window, "media/CptnRuby Gem.png", false)
     
     lines = File.readlines(filename).map { |line| line.chomp }
     @height = lines.size
@@ -19,16 +19,16 @@ class Map
       Array.new(@height) do |y|
         case lines[y][x, 1]
         when '"'
-          Grass.new(@window, @resources)
+          Grass.new(@window, @tile_images)
         when '#'
-          Dirt.new(@window, @resources)
+          Dirt.new(@window, @tile_images)
         when 'x'
-          CollectibleGem.new(@window, @resources)
+          CollectibleGem.new(@window, @tile_images)
         when 'p'
           @start_position = {:x => x, :y => y}
           nil
         when "l"
-          Door.new(@window, @resources)
+          Door.new(@window, @tile_images)
         else
           nil
         end

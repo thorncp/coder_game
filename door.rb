@@ -1,8 +1,8 @@
-class Door < Resource
-  def initialize(window, resources)
+class Door < Tile
+  def initialize(window, tile_images)
     @locked = true
-    @locked_image = resources[:locked_door]
-    @unlocked_image = resources[:unlocked_door]
+    @locked_image = tile_images[:locked_door]
+    @unlocked_image = tile_images[:unlocked_door]
   end
   
   def draw(x, y, z)

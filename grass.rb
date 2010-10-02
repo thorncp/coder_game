@@ -1,6 +1,6 @@
-class Grass < Resource
-  def initialize(window, resources)
-    @image = resources[:grass]
+class Grass < Tile
+  def initialize(window, tile_images)
+    @image = tile_images[:grass]
   end
   
   def draw(x, y, z)

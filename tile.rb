@@ -1,4 +1,4 @@
-class Resource
+class Tile
   def initialize(window, resources)
   end
   

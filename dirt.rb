@@ -1,6 +1,6 @@
-class Dirt < Resource
-  def initialize(window, resources)
-    @image = resources[:dirt]
+class Dirt < Tile
+  def initialize(window, tile_images)
+    @image = tile_images[:dirt]
   end
   
   def draw(x, y, z)

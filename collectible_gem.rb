@@ -1,8 +1,8 @@
-class CollectibleGem < Resource
+class CollectibleGem < Tile
   passable
   
-  def initialize(window, resources)
-    @image = resources[:gem]
+  def initialize(window, tile_images)
+    @image = tile_images[:gem]
   end
   
   def draw(x, y, z)
