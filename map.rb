@@ -1,5 +1,5 @@
 class Map
-  attr_reader :width, :height, :gems
+  attr_reader :width, :height, :gems, :start_position
   
   def initialize(window, filename)
     # Load 60x60 tiles, 5px overlap in all four directions.
@@ -20,6 +20,9 @@ class Map
           Tiles::Earth
         when 'x'
           @gems.push(CollectibleGem.new(gem_img, x * 50 + 25, y * 50 + 25))
+          nil
+        when 'p'
+          @start_position = {:x => x, :y => y}
           nil
         else
           nil

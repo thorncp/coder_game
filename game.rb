@@ -8,7 +8,7 @@ class Game < Gosu::Window
     self.caption = "Cptn. Ruby"
     @sky = Gosu::Image.new(self, "media/Space.png", true)
     @map = Map.new(self, "media/CptnRuby Map.txt")
-    @player = Player.new(self, 400, 100)
+    @player = Player.new(self, @map.start_position[:x], @map.start_position[:y])
     # The scrolling position is stored as top left corner of the screen.
     @camera_x, @camera_y = 0, 10
   end

@@ -9,7 +9,7 @@ class Player
   JumpStrength = 13
 
   def initialize(window, x, y)
-    @x, @y = x, y
+    @x, @y = x * ImageSize + ImageSize / 2, y * ImageSize + (ImageSize - HeadRoom)
     @dir = :left
     @velocity_y = 0
     
