@@ -1,5 +1,5 @@
 class Code < Projectile
-  attr_reader :x, :y, :dir, :velocity_x
+  attr_reader :x, :y, :dir, :velocity_x, :power
   
   def initialize(image, x, y, dir)
     @image = image
@@ -7,6 +7,7 @@ class Code < Projectile
     @y = y
     @dir = dir
     @velocity_x = dir == :left ? -10 : 10
+    @power = 1
   end
   
   def draw

@@ -13,7 +13,7 @@ class Player
     @dir = :left
     @velocity_y = 0
     
-    @map = window.map
+    @window = window
     
     # Load all animation frames
     images = Gosu::Image.load_tiles(window, ImageFileName, ImageSize, ImageSize, false)
@@ -22,13 +22,15 @@ class Player
     # This always points to the frame that is currently drawn.
     # This is set in update, and used in draw.
     @cur_image = @images[:standing]
+    
+    @health = 10
   end
   
   def draw
     draw_image
   end
   
-  def update(delta_x)
+  def update(delta_x = 0)
     @moving = false
     
     unless delta_x.zero?
@@ -83,7 +85,7 @@ class Player
   end
   
   def solid?(delta_x, delta_y)
-    @map.solid?(@x + delta_x, @y + delta_y) or @map.solid?(@x + delta_x, @y + delta_y - (ImageSize - HeadRoom))
+    @window.map.solid?(@x + delta_x, @y + delta_y) or @window.map.solid?(@x + delta_x, @y + delta_y - (ImageSize - HeadRoom))
   end
   
   def select_image
@@ -99,7 +101,7 @@ class Player
   end
   
   def fire
-    @map.fire(:code, @x, @y, @dir)
+    @window.map.fire(:code, @x, @y, @dir)
   end
   
   def draw_image
@@ -112,5 +114,10 @@ class Player
     end
     
     @cur_image.draw(@x + offs_x, @y - ImageSize - 1, 0, factor, 1.0)
+  end
+  
+  def hit(projectile)
+    @health -= projectile.power
+    @health <= 0
   end
 end

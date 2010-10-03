@@ -35,6 +35,8 @@ class Map
           nil
         when "l"
           Door.new(@window, @tile_images)
+        when "c"
+          Client.new(@window, x, y)
         else
           nil
         end
@@ -45,6 +47,15 @@ class Map
   end
   
   def update(player)
+    left = [[player.x / 50 - @block_width / 2 - 2, 0].max, @width - @block_width - 2].min
+    right = [left + @block_width + 4, @width - 1].min
+    
+    left.upto(right) do |x|
+      @height.times do |y|
+        @tiles[x][y].update if @tiles[x][y]
+      end
+    end
+    
     @projectiles.reject! do |p|
       x, y = p.next_x, p.y - 25
       tile = tile_at(x, y)

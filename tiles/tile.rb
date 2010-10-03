@@ -21,4 +21,7 @@ class Tile
   def hit(element)
     false
   end
+  
+  def update
+  end
 end
