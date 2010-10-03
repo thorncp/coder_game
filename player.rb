@@ -6,12 +6,14 @@ class Player
   HeadRoom = 5 # this is the buffer of how high into an object the player can jump
   BobbleInterval = 200
   GravityAcceleration = 1
-  JumpStrength = 14
 
   def initialize(window, x, y)
     @x, @y = x * ImageSize + ImageSize / 2, y * ImageSize + (ImageSize - HeadRoom)
     @dir = :left
     @velocity_y = 0
+    
+    @config = {}
+    @config[:jump_strength] = 14
     
     @window = window
     
@@ -68,7 +70,7 @@ class Player
   def jump
     # if there's ground under our feet, we can jump
     if solid? 0, 1
-      @velocity_y = -JumpStrength
+      @velocity_y = -@config[:jump_strength]
     end
   end
   
@@ -101,7 +103,7 @@ class Player
   end
   
   def fire
-    @window.map.fire(:code, @x, @y, @dir)
+    @window.map.fire(:code, @x, @y, @dir, self)
   end
   
   def draw_image

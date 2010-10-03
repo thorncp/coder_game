@@ -69,7 +69,8 @@ class Map
     @projectiles.reject! do |p|
       x, y = p.next_x, p.y - 25
       tile = tile_at(x, y)
-      if tile
+      tile = player if [player.x/50, player.y/50] == [x/50,y/50]
+      if tile and tile != p.owner
         remove_tile(x, y) if tile.hit(p)
         true
       end
@@ -116,9 +117,9 @@ class Map
     @tiles[x][y].action(element) if @tiles[x][y]
   end
   
-  def fire(element, x, y, dir)
+  def fire(element, x, y, dir, owner)
     projectile = @projectile_assets[element]
-    @projectiles << projectile[:class].new(projectile[:image], x, y, dir)
+    @projectiles << projectile[:class].new(projectile[:image], x, y, dir, owner)
   end
   
   # Solid at a given pixel position?
