@@ -52,7 +52,17 @@ class Map
     
     left.upto(right) do |x|
       @height.times do |y|
-        @tiles[x][y].update if @tiles[x][y]
+        tile = @tiles[x][y]
+        if tile
+          tile.update
+          if moved = tile.change_position
+            new_x, new_y = moved[0] / 50, moved[1] / 50
+            unless x == new_x and y == new_y
+              @tiles[x][y] = nil
+              @tiles[new_x][new_y] = tile
+            end
+          end
+        end
       end
     end
     

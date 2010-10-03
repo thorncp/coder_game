@@ -24,4 +24,8 @@ class Tile
   
   def update
   end
+  
+  def change_position
+    nil
+  end
 end
