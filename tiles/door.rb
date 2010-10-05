@@ -1,5 +1,6 @@
 class Door < Tile
   def initialize(window, tile_images)
+    @window = window
     @locked = true
     @locked_image = tile_images[:locked_door]
     @unlocked_image = tile_images[:unlocked_door]
@@ -19,6 +20,10 @@ class Door < Tile
   end
   
   def action(actor)
-    @locked = !@locked
+    if locked?
+      @window.popup("# Hack the door!") do |value|
+        @locked = false if value == "haxor"
+      end
+    end
   end
 end

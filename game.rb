@@ -13,26 +13,31 @@ class Game < Gosu::Window
     @camera_x, @camera_y = 0, 10
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
     @game_over_font = Gosu::Font.new(self, Gosu::default_font_name, 72)
+    @cursor = Gosu::Image.new(self, "media/Cursor.png", false)
   end
   
   def update
-    if @player.health > 0
-      move_x = 0
-      move_x -= 5 if button_down? Gosu::KbLeft
-      move_x += 5 if button_down? Gosu::KbRight
+    @game_over = true and return if @player.health <= 0
     
-      @player.update(move_x)
-    
-      # Scrolling follows player
-      @camera_x = [[@player.x - @resolution_x / 2, 0].max, @map.width * 50 - @resolution_x].min
-    
-      @map.update(@player)
-    else
-      @game_over = true
-    end
+    move_x = 0
+    move_x -= 5 if button_down? Gosu::KbLeft
+    move_x += 5 if button_down? Gosu::KbRight
+  
+    @player.update(move_x)
+  
+    # Scrolling follows player
+    @camera_x = [[@player.x - @resolution_x / 2, 0].max, @map.width * 50 - @resolution_x].min
+  
+    @map.update(@player)
   end
   
   def draw
+    if @popup
+      @popup.draw
+      @cursor.draw(mouse_x, mouse_y, 0)
+      return
+    end
+    
     @sky.draw 0, 0, 0
     translate(-@camera_x, -@camera_y) do
       @map.draw(@player.x)
@@ -45,13 +50,29 @@ class Game < Gosu::Window
     end
   end
   
+  def popup(text, &block)
+    @popup = Popup.new(self, @font, text, &block)
+    self.text_input = @popup
+  end
+  
   def button_down(id)
     case id
-      when Gosu::KbEscape then close
+      when Gosu::KbEscape
+        if @popup
+          close_popup
+        else
+          close
+        end
       when Gosu::KbUp then @player.jump
       when Gosu::KbF then action
       when Gosu::KbSpace then @player.fire
     end
+  end
+  
+  def close_popup
+    @popup.close
+    @popup = nil
+    self.text_input = nil
   end
   
   def action
