@@ -15,7 +15,7 @@ class Client < Player
     end
     
     jump if (2800..3000).include? Gosu::milliseconds % 3000
-    fire if (0..20).include? Gosu::milliseconds % 1000
+    fire if (0..20).include? Gosu::milliseconds % 2000
     
     fall
     select_image
