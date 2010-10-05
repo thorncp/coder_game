@@ -16,7 +16,7 @@ class Game < Gosu::Window
     @cursor = Gosu::Image.new(self, "media/Cursor.png", false)
     
     @audio = {}
-    @audio[:keyboard] = Gosu::Sample.new(self, "audio/keyboard.mp3")
+    @audio[:keyboard] = Gosu::Sample.new(self, "audio/ui_click.mp3")
     
     # credit: http://soundbible.com/1369-Robot-Arm-Moving.html
     @audio[:door_open] = Gosu::Sample.new(self, "audio/door_open.mp3")
