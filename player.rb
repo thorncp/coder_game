@@ -1,11 +1,12 @@
 class Player
-  attr_reader :x, :y, :dir
+  attr_reader :x, :y, :dir, :health
   
   ImageFileName = "media/Coder.png"
   ImageSize = 50
   HeadRoom = 5 # this is the buffer of how high into an object the player can jump
   BobbleInterval = 200
   GravityAcceleration = 1
+  FireCoolDown = 150
 
   def initialize(window, x, y)
     @x, @y = x * ImageSize + ImageSize / 2, y * ImageSize + (ImageSize - HeadRoom)
@@ -26,6 +27,7 @@ class Player
     @cur_image = @images[:standing]
     
     @health = 10
+    @last_fired = 0
   end
   
   def draw
@@ -103,7 +105,11 @@ class Player
   end
   
   def fire
-    @window.map.fire(:code, @x, @y, @dir, self)
+    if Gosu::milliseconds - @last_fired >= FireCoolDown
+      @window.play(:code)
+      @window.map.fire(:code, @x, @y, @dir, self)
+      @last_fired = Gosu::milliseconds
+    end
   end
   
   def draw_image
@@ -120,6 +126,9 @@ class Player
   
   def hit(projectile)
     @health -= projectile.power
-    @health <= 0
+    if @health <= 0
+      @window.play(:death)
+      true
+    end
   end
 end

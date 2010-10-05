@@ -1,0 +1,25 @@
+--- 
+- :clue: 
+  - Math is awesome. In order to progress, you must master the basics.
+  - You will be given two variables, x and y. You must provide the sum of these values to open the door.
+  :tests: 
+  - :args: 
+      :x: 5
+      :y: 7
+    :result: 12
+  - :args: 
+      :x: 35
+      :y: 33
+    :result: 68
+- :clue: 
+  - Math is awesome. In order to progress, you must master the basics.
+  - You will be given two variables, x and y. You must provide the product of these values to open the door.
+  :tests: 
+  - :args: 
+      :x: 5
+      :y: 7
+    :result: 35
+  - :args: 
+      :x: 35
+      :y: 33
+    :result: 1155
