@@ -6,11 +6,12 @@ class Map
     
     ground = Gosu::Image.load_tiles(window, "media/CptnRuby Tileset.png", 60, 60, true)
     @tile_images = {}
-    @tile_images[:grass] = ground[0]
-    @tile_images[:dirt] = ground[1]
+    @tile_images[:grass] = Gosu::Image.new(window, "media/Tile.png", false)
+    @tile_images[:dirt] = Gosu::Image.new(window, "media/Tile.png", false)
     @tile_images[:locked_door] = Gosu::Image.new(window, "media/locked_door.png", false)
     @tile_images[:unlocked_door] = Gosu::Image.new(window, "media/unlocked_door.png", false)
     @tile_images[:gem] = Gosu::Image.new(window, "media/CptnRuby Gem.png", false)
+    @tile_images[:desk] = Gosu::Image.new(window, "media/desk.png", false)
     
     @projectile_assets = Hash.new { |h,k| h[k] = {} }
     @projectile_assets[:code][:class] = Code
@@ -37,6 +38,8 @@ class Map
           Door.new(@window, @tile_images)
         when "c"
           Client.new(@window, x, y)
+		when 'd'
+		  Desk.new(@window, @tile_images)
         else
           nil
         end

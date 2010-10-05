@@ -1,7 +1,7 @@
 class Player
   attr_reader :x, :y, :dir
   
-  ImageFileName = "media/CptnRuby.png"
+  ImageFileName = "media/Coder.png"
   ImageSize = 50
   HeadRoom = 5 # this is the buffer of how high into an object the player can jump
   BobbleInterval = 200
