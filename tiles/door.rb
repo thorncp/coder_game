@@ -1,3 +1,5 @@
+require "yaml"
+
 class Door < Tile
   def initialize(window, tile_images)
     @window = window
@@ -20,14 +22,19 @@ class Door < Tile
   end
   
   def action(actor)
-    clue = [
-      "Math is awesome. In order to progress, you must master the basics.",
-      "You will be given two variables, x and y. You must provide the sum of these values open the door."
-    ]
+    stuff = YAML.load_file("problems.yml")
+    
+    h = stuff.sample
+    
     if locked?
-      @window.popup(clue, "# Hack the door!") do |value|
-        test = proc { |x, y| eval(value) }.call(5, 7)
-        @locked = false if test == 12
+      @window.popup(h[:clue], "# Hack the door!") do |value|
+        passed = h[:tests].all? do |test|
+          args = test[:args].keys
+          values = test[:args].values
+          result = eval "proc { |#{args.join(",")}| eval(value) }.call(#{values.join(",")})"
+          result == test[:result]
+        end
+        @locked = false if passed
       end
     end
   end
