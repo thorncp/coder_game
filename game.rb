@@ -20,8 +20,14 @@ class Game < Gosu::Window
     # credit: http://soundbible.com/1273-Metal-Reflect.html
     @audio[:keyboard] = Gosu::Sample.new(self, "audio/ui_click.mp3")
     
-    # credit: http://soundbible.com/1369-Robot-Arm-Moving.html
+    # credit: http://soundbible.com/1104-Metal-Clank-Wobble.html
     @audio[:door_open] = Gosu::Sample.new(self, "audio/door_open.mp3")
+    
+    # credit: http://soundbible.com/1087-Laser.html
+    @audio[:code] = Gosu::Sample.new(self, "audio/code.mp3")
+    
+    # credit: http://soundbible.com/1033-Zombie-In-Pain.html
+    @audio[:death] = Gosu::Sample.new(self, "audio/death.mp3")
   end
   
   def update

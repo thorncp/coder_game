@@ -106,6 +106,7 @@ class Player
   
   def fire
     if Gosu::milliseconds - @last_fired >= FireCoolDown
+      @window.play(:code)
       @window.map.fire(:code, @x, @y, @dir, self)
       @last_fired = Gosu::milliseconds
     end
@@ -125,6 +126,9 @@ class Player
   
   def hit(projectile)
     @health -= projectile.power
-    @health <= 0
+    if @health <= 0
+      @window.play(:death)
+      true
+    end
   end
 end
