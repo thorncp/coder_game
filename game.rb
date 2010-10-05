@@ -5,7 +5,7 @@ class Game < Gosu::Window
     @resolution_x = 640
     @resolution_y = 480
     super(@resolution_x, @resolution_y, false)
-    self.caption = "Code or Die: The Uncoded One"
+    self.caption = "Code or Die: The Last Encoding: The Uncoded One"
     @sky = Gosu::Image.new(self, "media/Space.png", true)
     @map = Map.new(self, "media/CptnRuby Map.txt")
     @player = Player.new(self, @map.start_position[:x], @map.start_position[:y])
