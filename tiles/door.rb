@@ -35,7 +35,10 @@ class Door < Tile
           result = eval "proc { |#{args.join(",")}| eval(value) }.call(#{values.join(",")})"
           result == test[:result]
         end
-        @locked = false if passed
+        if passed
+          @window.play(:door_open)
+          @locked = false
+        end
       end
     end
   end

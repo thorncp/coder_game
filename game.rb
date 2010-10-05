@@ -17,6 +17,9 @@ class Game < Gosu::Window
     
     @audio = {}
     @audio[:keyboard] = Gosu::Sample.new(self, "audio/keyboard.mp3")
+    
+    # credit: http://soundbible.com/1369-Robot-Arm-Moving.html
+    @audio[:door_open] = Gosu::Sample.new(self, "audio/door_open.mp3")
   end
   
   def update
