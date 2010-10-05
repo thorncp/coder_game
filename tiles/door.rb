@@ -20,9 +20,14 @@ class Door < Tile
   end
   
   def action(actor)
+    clue = [
+      "Math is awesome. In order to progress, you must master the basics.",
+      "You will be given two variables, x and y. You must provide the sum of these values open the door."
+    ]
     if locked?
-      @window.popup("# Hack the door!") do |value|
-        @locked = false if value == "haxor"
+      @window.popup(clue, "# Hack the door!") do |value|
+        test = proc { |x, y| eval(value) }.call(5, 7)
+        @locked = false if test == 12
       end
     end
   end

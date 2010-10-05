@@ -33,6 +33,8 @@ class Game < Gosu::Window
   
   def draw
     if @popup
+      y = 20
+      @summaries.each { |s| @font.draw(s, 50, y += 20, 0, 1.0, 1.0, 0xffffffff) }
       @popup.draw
       @cursor.draw(mouse_x, mouse_y, 0)
       return
@@ -50,7 +52,22 @@ class Game < Gosu::Window
     end
   end
   
-  def popup(text, &block)
+  def make_sure_output_is_koshure(arr)
+    [*arr].each_with_index.map do |message, index|
+      message.size > 50 ? split_string(message, 50) : arr[index]
+    end.flatten
+  end
+  
+  def split_string(str, length)
+    str.split(" ").inject([""]) do |arr, word|
+      arr.push("") if arr.last.size > length
+      arr.last << "#{word} "
+      arr
+    end.map(&:strip)
+  end
+  
+  def popup(summary, text, &block)
+    @summaries = make_sure_output_is_koshure(summary)
     @popup = Popup.new(self, @font, text, &block)
     self.text_input = @popup
   end
