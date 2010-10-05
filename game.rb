@@ -14,6 +14,9 @@ class Game < Gosu::Window
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
     @game_over_font = Gosu::Font.new(self, Gosu::default_font_name, 72)
     @cursor = Gosu::Image.new(self, "media/Cursor.png", false)
+    
+    @audio = {}
+    @audio[:keyboard] = Gosu::Sample.new(self, "audio/keyboard.mp3")
   end
   
   def update
@@ -94,5 +97,9 @@ class Game < Gosu::Window
   
   def action
     @map.action(@player)
+  end
+  
+  def play(sound)
+    @audio[sound].play
   end
 end

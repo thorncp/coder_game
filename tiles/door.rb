@@ -22,6 +22,7 @@ class Door < Tile
   end
   
   def action(actor)
+    @window.play(:keyboard)
     stuff = YAML.load_file("problems.yml")
     
     h = stuff.sample
