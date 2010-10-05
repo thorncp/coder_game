@@ -11,6 +11,7 @@ class Game < Gosu::Window
     @player = Player.new(self, @map.start_position[:x], @map.start_position[:y])
     # The scrolling position is stored as top left corner of the screen.
     @camera_x, @camera_y = 0, 10
+    @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
   end
   
   def update
@@ -33,6 +34,7 @@ class Game < Gosu::Window
       @map.draw(@player.x)
       @player.draw
     end
+    @font.draw("Health: #{@player.health}", 10, 10, 0, 1.0, 1.0, 0xffffff00)
   end
   
   def button_down(id)
