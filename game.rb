@@ -12,20 +12,24 @@ class Game < Gosu::Window
     # The scrolling position is stored as top left corner of the screen.
     @camera_x, @camera_y = 0, 10
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
+    @game_over_font = Gosu::Font.new(self, Gosu::default_font_name, 72)
   end
   
   def update
-    move_x = 0
-    move_x -= 5 if button_down? Gosu::KbLeft
-    move_x += 5 if button_down? Gosu::KbRight
+    if @player.health > 0
+      move_x = 0
+      move_x -= 5 if button_down? Gosu::KbLeft
+      move_x += 5 if button_down? Gosu::KbRight
     
-    @player.update(move_x)
+      @player.update(move_x)
     
-    # Scrolling follows player
-    @camera_x = [[@player.x - @resolution_x / 2, 0].max, @map.width * 50 - @resolution_x].min
-    #@camera_y = [[@player.y - @resolution_y / 2, 0].max, @map.height * 50 - @resolution_y].min
+      # Scrolling follows player
+      @camera_x = [[@player.x - @resolution_x / 2, 0].max, @map.width * 50 - @resolution_x].min
     
-    @map.update(@player)
+      @map.update(@player)
+    else
+      @game_over = true
+    end
   end
   
   def draw
@@ -35,6 +39,10 @@ class Game < Gosu::Window
       @player.draw
     end
     @font.draw("Health: #{@player.health}", 10, 10, 0, 1.0, 1.0, 0xffffff00)
+    
+    if @game_over
+      @game_over_font.draw("Game Over", @resolution_x / 5, @resolution_y / 3, 0, 1.0, 1.0, 0xffff0000)
+    end
   end
   
   def button_down(id)
