@@ -16,7 +16,7 @@ class Popup < Gosu::TextInput
     
     # need a better way to determine the center
     @x = @window.width / 5
-    @y = @window.height / 2
+    @y = @window.height / 1.3
     
     # Start with a self-explanatory text in each field.
     self.text = text

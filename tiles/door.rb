@@ -34,7 +34,7 @@ class Door < Tile
     open unless problem
     
     if locked?
-      @window.popup(problem[:clue], "# Hack the door!") do |value|
+      @window.popup(problem[:clue], "") do |value|
         args = problem[:args].keys
         values = problem[:args].values
         

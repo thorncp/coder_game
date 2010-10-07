@@ -16,10 +16,28 @@ class Problems
     },
     :assert => proc { |result| result == 3585768 }
   }
+
+  @problems << {
+    :clue => [
+      "In Ruby, every thing is an object (notice I did not say 'everything'). All objects can be asked to perform an action. This is accomplished by sending an object a message. If we have an object called 'object', we can ask it to do something awesome like so:",
+      "    object.do_something_awesome",
+      "Try asking the object to perform.",
+      "Variables given: object"
+    ],
+    :args => {
+      :object => Class.new do
+        attr_reader :success
+        def perform
+          @success = true
+        end
+      end.new
+    },
+    :assert => proc { |result, object| object.success }
+  }
   
   @problems << {
     :clue => [
-      "In this problem, you are given the door.  To proceed, simply open it.",
+      "In this problem, you are given the door.  To proceed, simply use your new found knowledge to tell it to open.",
       "Variables given: door"
     ],
     :args => {
