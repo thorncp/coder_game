@@ -21,25 +21,41 @@ class Door < Tile
     not locked?
   end
   
+  def hittable?
+    locked?
+  end
+  
   def action(actor)
     @window.play(:keyboard)
-    stuff = YAML.load_file("problems.yml")
     
-    h = stuff.sample
+    problem = Problems.next
+    
+    # that sounds backwards, but what we're doing is opening if we fail to retrieve a problem
+    open unless problem
     
     if locked?
-      @window.popup(h[:clue], "# Hack the door!") do |value|
-        passed = h[:tests].all? do |test|
-          args = test[:args].keys
-          values = test[:args].values
-          result = eval "proc { |#{args.join(",")}| eval(value) }.call(#{values.join(",")})"
-          result == test[:result]
+      @window.popup(problem[:clue], "") do |value|
+        args = problem[:args].keys
+        values = problem[:args].values
+        
+        begin
+          p = eval "proc { |#{args.join(",")}| eval(value) }"
+          result = p.call(*values)
+          passed = problem[:assert].call(result, *values)
+        rescue Exception
+          passed = false
         end
+        
         if passed
-          @window.play(:door_open)
-          @locked = false
+          open
+          problem.solved 
         end
       end
     end
+  end
+  
+  def open
+    @window.play(:door_open)
+    @locked = false
   end
 end

@@ -21,6 +21,8 @@ class Map
     
     @projectiles = []
     
+    @clients = []
+    
     lines = File.readlines(filename).map { |line| line.chomp }
     @height = lines.size
     @width = lines[0].size
@@ -39,9 +41,10 @@ class Map
         when "l"
           Door.new(@window, @tile_images)
         when "c"
-          Client.new(@window, x, y)
-		when 'd'
-		  Desk.new(@window, @tile_images)
+          @clients << Client.new(@window, x, y)
+          nil
+        when 'd'
+          Desk.new(@window, @tile_images)
         else
           nil
         end
@@ -52,10 +55,10 @@ class Map
   end
   
   def update(player)
-    left = [[player.x / 50 - @block_width / 2 - 2, 0].max, @width - @block_width - 2].min
-    right = [left + @block_width + 4, @width - 1].min
+    @left = [[player.x / 50 - @block_width / 2 - 2, 0].max, @width - @block_width - 2].min
+    @right = [@left + @block_width + 4, @width - 1].min
     
-    left.upto(right) do |x|
+    @left.upto(@right) do |x|
       @height.times do |y|
         tile = @tiles[x][y]
         if tile
@@ -71,22 +74,46 @@ class Map
       end
     end
     
-    @projectiles.reject! do |p|
-      x, y = p.next_x, p.y - 25
-      tile = tile_at(x, y)
-      tile = player if [player.x/50, player.y/50] == [x/50,y/50]
-      if tile and tile != p.owner
-        remove_tile(x, y) if tile.hit(p)
-        true
+    @clients.each do |client|
+      if (@left..@right).include? client.x / 50
+        client.update
       end
+    end
+    
+    @projectiles.reject! do |p|
+      projectile_hit?(p, player)
+    end
+  end
+  
+  def projectile_hit?(p, player)
+    x, y = p.next_x, p.y - 25
+    # holy crap this is out of control
+    # but it works for now
+    
+    # first see if the player is hit
+    tile = player if p.owner != player and (x - player.x).abs < 20 and (y - player.y).abs < 35
+    if tile and tile != p.owner
+      tile.hit(p)
+      return true
+    end
+    
+    # now see if we can hit a client
+    tile = @clients.find { |c| (x - c.x).abs < 20 and (y + 10 - c.y).abs < 25 }
+    if tile and tile != p.owner
+      @clients.delete(tile) if tile.hit(p)
+      return true
+    end
+    
+    # finally see if we hit the environment
+    tile = tile_at(x, y)
+    if tile and tile.hittable?
+      remove_tile(x, y) if tile.hit(p)
+      return true
     end
   end
   
   def draw(x)
-    left = [[x / 50 - @block_width / 2 - 2, 0].max, @width - @block_width - 2].min
-    right = [left + @block_width + 4, @width - 1].min
-    
-    left.upto(right) do |x|
+    @left.upto(@right) do |x|
       @height.times do |y|
         tile = @tiles[x][y]
         if tile
@@ -97,19 +124,20 @@ class Map
       end
     end
     
-    hil = left * 50 + 25
-    hir = right * 50 + 25
+    @clients.each do |client|
+      if (@left..@right).include? client.x / 50
+        client.draw
+      end
+    end
     
     @projectiles.reject! do |p|
-      if (left..right).include?(p.x / 50)
+      if (@left..@right).include?(p.x / 50)
         p.draw
         false
       else
         true
       end
     end
-    
-    #@gems.select{ |g| (hil..hir).include? g.x }.each { |c| c.draw }
   end
   
   def action(element)

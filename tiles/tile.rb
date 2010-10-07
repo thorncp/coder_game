@@ -15,6 +15,16 @@ class Tile
     end
   end
   
+  def hittable?
+    false
+  end
+  
+  def self.hittable
+    define_method :hittable? do
+      true
+    end
+  end
+  
   def action(actor)
   end
   

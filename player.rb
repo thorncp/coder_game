@@ -132,4 +132,8 @@ class Player
       true
     end
   end
+  
+  def passable?
+    false
+  end
 end

@@ -49,7 +49,7 @@ class Game < Gosu::Window
   def draw
     if @popup
       y = 20
-      @summaries.each { |s| @font.draw(s, 50, y += 20, 0, 1.0, 1.0, 0xffffffff) }
+      @summaries.each { |s| @font.draw(s, 50, y += 25, 0, 1.0, 1.0, 0xffffffff) }
       @popup.draw
       @cursor.draw(mouse_x, mouse_y, 0)
       return
