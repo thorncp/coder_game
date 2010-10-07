@@ -20,16 +20,4 @@ class Client < Player
     fall
     select_image
   end
-  
-  def draw(x, y, z)
-    super()
-  end
-  
-  def passable?
-    true
-  end
-  
-  def change_position
-    [@x, @y]
-  end
 end

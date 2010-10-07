@@ -1,4 +1,6 @@
 class Grass < Tile
+  hittable
+  
   def initialize(window, tile_images)
     @image = tile_images[:grass]
   end

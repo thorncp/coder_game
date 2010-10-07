@@ -21,6 +21,10 @@ class Door < Tile
     not locked?
   end
   
+  def hittable?
+    locked?
+  end
+  
   def action(actor)
     @window.play(:keyboard)
     stuff = YAML.load_file("problems.yml")

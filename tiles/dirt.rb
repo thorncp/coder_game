@@ -1,4 +1,6 @@
 class Dirt < Tile
+  hittable
+
   def initialize(window, tile_images)
     @image = tile_images[:dirt]
   end

@@ -1,5 +1,6 @@
 class CollectibleGem < Tile
   passable
+  hittable
   
   def initialize(window, tile_images)
     @image = tile_images[:gem]
