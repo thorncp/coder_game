@@ -16,6 +16,8 @@ class Map
     @projectile_assets = Hash.new { |h,k| h[k] = {} }
     @projectile_assets[:code][:class] = Code
     @projectile_assets[:code][:image] = Gosu::Image.new(window, "media/code.png", false)
+    @projectile_assets[:doc][:class] = Doc
+    @projectile_assets[:doc][:image] = Gosu::Image.new(window, "media/doc.png", false)
     
     @projectiles = []
     

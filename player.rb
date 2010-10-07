@@ -17,10 +17,10 @@ class Player
     
     @window = window
     
-    iamge_file = "media/#{self.class.name}.png"
+    image_file = "media/#{self.class.name}.png"
     
     # Load all animation frames
-    images = Gosu::Image.load_tiles(window, iamge_file, ImageSize, ImageSize, false)
+    images = Gosu::Image.load_tiles(window, image_file, ImageSize, ImageSize, false)
     @images = Hash[[:standing, :bobble1, :bobble2, :jumping].zip(images)]
     
     # This always points to the frame that is currently drawn.

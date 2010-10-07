@@ -6,7 +6,7 @@ class Code < Projectile
     @x = x
     @y = y
     @dir = dir
-    @velocity_x = dir == :left ? -10 : 10
+    @velocity_x = dir == :left ? -7 : 7
     @power = 1
     @owner = owner
   end
