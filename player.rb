@@ -1,7 +1,6 @@
 class Player
   attr_reader :x, :y, :dir, :health
   
-  ImageFileName = "media/Coder.png"
   ImageSize = 50
   HeadRoom = 5 # this is the buffer of how high into an object the player can jump
   BobbleInterval = 200
@@ -18,8 +17,10 @@ class Player
     
     @window = window
     
+    iamge_file = "media/#{self.class.name}.png"
+    
     # Load all animation frames
-    images = Gosu::Image.load_tiles(window, ImageFileName, ImageSize, ImageSize, false)
+    images = Gosu::Image.load_tiles(window, iamge_file, ImageSize, ImageSize, false)
     @images = Hash[[:standing, :bobble1, :bobble2, :jumping].zip(images)]
     
     # This always points to the frame that is currently drawn.
