@@ -74,7 +74,7 @@ class Map
       end
     end
     
-    @left = [[player.x / 50 - @block_width / 2 - 2, 0].max, @width - @block_width - 2].min
+    @left = [[player.x / 50 - @block_width / 2 - 2, 0].max,[ @width - @block_width - 4, 0].max].min
     @right = [@left + @block_width + 4, @width - 1].min
     
     @left.upto(@right) do |x|
@@ -176,7 +176,11 @@ class Map
   
   # Solid at a given pixel position?
   def solid?(x, y)
-    tile = @tiles[x / 50][y / 50]
+    begin
+      tile = @tiles[x / 50][y / 50]
+    rescue Exception
+      puts "fail at: " + [x / 50][y / 50].inspect
+    end
     y < 0 || tile && !tile.passable?
   end
   

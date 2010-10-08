@@ -92,7 +92,7 @@ class Game < Gosu::Window
     
     draw_with_throb(@player.health, "Health: #{@player.health}", 10, 4)
     draw_with_throb(@player.mind_power, "Mind Power: #{@player.mind_power}", 10, 22)
-    @font.draw("Score: #{@player.score}", width - 75, 4, 0, 1.0, 1.0, Gosu::Color::YELLOW) if @player.score > 0
+    @font.draw("Score: #{@player.score}", width - 100, 4, 0, 1.0, 1.0, Gosu::Color::YELLOW) if @player.score > 0
     
     y = 40
     @messages.reject! do |message, i|
@@ -140,11 +140,8 @@ class Game < Gosu::Window
     
     case id
       when Gosu::KbEscape
-        if @popup
-          close_popup
-        else
-          close
-        end
+        close_popup if @popup
+      when Gosu::KbQ then close
       when Gosu::KbUp then @player.jump
       when Gosu::KbF then action
       when Gosu::KbSpace then @player.fire
