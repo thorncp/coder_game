@@ -9,6 +9,10 @@ class Desk < Tile
 	  :chips => {
 	    :message => "You found chips, NOM NOM!",
 	    :action => proc { |player| player.add_health(3) }
+	  },
+	  :nothing => {
+	    :message => "You found nothing :(",
+	    :action => proc {}
 	  }
 	}
 	
@@ -25,7 +29,16 @@ class Desk < Tile
   def action(actor)
     return if @searched
     @searched = true
-    item = Items[Items.keys.sample]
+    @window.play(:desk)
+    
+    if actor.health >= 10 and actor.mind_power >= 10
+      item = Items[:nothing]
+    elsif actor.health < 10
+      item = Items[:chips]
+    else
+      item = Items[:coffee]
+    end
+    
     @window.message(item[:message])
     item[:action].call(actor)
   end

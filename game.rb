@@ -34,6 +34,9 @@ class Game < Gosu::Window
     
     # credit: http://soundbible.com/214-Tearing-Paper.html
     @audio[:doc] = Gosu::Sample.new(self, "audio/doc.mp3")
+    
+    # creadit: http://soundbible.com/613-Drawer-Opening.html
+    @audio[:desk] = Gosu::Sample.new(self, "audio/desk.mp3")
   end
   
   def update

@@ -140,10 +140,10 @@ class Player
   end
   
   def add_mind_power(x)
-    @mind_power += x
+    @mind_power = 10 if (@mind_power += x) > 10
   end
   
   def add_health(x)
-    @health += x
+    @health = 10 if (@health += x) > 10
   end
 end

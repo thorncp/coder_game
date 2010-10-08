@@ -1,7 +1,8 @@
 class Client < Player
   def initialize(window, x, y)
     super
-    @config[:jump_strength] = 3
+    @config[:jump_strength] = 10
+    @health = 3
   end
   
   def update
