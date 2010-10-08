@@ -26,7 +26,9 @@ class Game < Gosu::Window
       "All I remember............is a shadow....just.........looming over me.",
       "AGGHHhhh. Whatever happened, I think I need to get the hell out of here.",
       "I should probably find a way to stop this bleeding first though.",
-      "Maybe there's food in that desk over there..."
+      "Maybe there's food in that desk over there...",
+      "",
+      "Why do I fell the urge to ESCape?"
     ]
     
     # credit: http://soundbible.com/1273-Metal-Reflect.html
@@ -54,8 +56,10 @@ class Game < Gosu::Window
     @game_over = true and return if @player.health <= 0
     
     move_x = 0
-    move_x -= 5 if button_down? Gosu::KbLeft
-    move_x += 5 if button_down? Gosu::KbRight
+    unless @dialog
+      move_x -= 5 if button_down? Gosu::KbLeft
+      move_x += 5 if button_down? Gosu::KbRight
+    end
   
     @player.update(move_x)
   
