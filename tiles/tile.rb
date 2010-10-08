@@ -1,5 +1,6 @@
 class Tile
   def initialize(window, resources)
+    @window = window
   end
   
   def draw(x, y, z)

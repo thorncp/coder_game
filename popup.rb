@@ -22,11 +22,6 @@ class Popup < Gosu::TextInput
     self.text = text
   end
   
-  # Example filter method. You can truncate the text to employ a length limit (watch out
-  # with Ruby 1.8 and UTF-8!), limit the text to certain characters etc.
-  # def filter(text)
-  # end
-  
   def draw
     # Depending on whether this is the currently selected input or not, change the
     # background's color.

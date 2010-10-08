@@ -1,5 +1,5 @@
 class Player
-  attr_reader :x, :y, :dir, :health
+  attr_reader :x, :y, :dir, :health, :mind_power
   
   ImageSize = 50
   HeadRoom = 5 # this is the buffer of how high into an object the player can jump
@@ -29,6 +29,7 @@ class Player
     
     @health = 10
     @last_fired = 0
+    @mind_power = 10
   end
   
   def draw
@@ -106,10 +107,11 @@ class Player
   end
   
   def fire
-    if Gosu::milliseconds - @last_fired >= FireCoolDown
+    if Gosu::milliseconds - @last_fired >= FireCoolDown and @mind_power > 0
       @window.play(:code)
       @window.map.fire(:code, @x, @y, @dir, self)
       @last_fired = Gosu::milliseconds
+      @mind_power -= 1
     end
   end
   
@@ -135,5 +137,13 @@ class Player
   
   def passable?
     false
+  end
+  
+  def add_mind_power(x)
+    @mind_power += x
+  end
+  
+  def add_health(x)
+    @health += x
   end
 end

@@ -1,7 +1,7 @@
 class Client < Player
   def initialize(window, x, y)
     super
-    @config[:jump_strength] = 10
+    @config[:jump_strength] = 3
   end
   
   def update
@@ -14,10 +14,18 @@ class Client < Player
         move(1, 0)
     end
     
-    jump if (2800..3000).include? Gosu::milliseconds % 3000
-    fire if (0..20).include? Gosu::milliseconds % 2000
+    jump if (1800..2000).include? Gosu::milliseconds % 2000
+    fire if (0..20).include? Gosu::milliseconds % 1000
     
     fall
     select_image
+  end
+  
+  def fire
+    if Gosu::milliseconds - @last_fired >= FireCoolDown
+      @window.play(:doc)
+      @window.map.fire(:doc, @x, @y, @dir, self)
+      @last_fired = Gosu::milliseconds
+    end
   end
 end

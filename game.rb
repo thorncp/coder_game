@@ -16,6 +16,8 @@ class Game < Gosu::Window
     @game_over_font = Gosu::Font.new(self, Gosu::default_font_name, 72)
     @cursor = Gosu::Image.new(self, "media/Cursor.png", false)
     
+    @messages = []
+    
     @audio = {}
     
     # credit: http://soundbible.com/1273-Metal-Reflect.html
@@ -29,6 +31,9 @@ class Game < Gosu::Window
     
     # credit: http://soundbible.com/1033-Zombie-In-Pain.html
     @audio[:death] = Gosu::Sample.new(self, "audio/death.mp3")
+    
+    # credit: http://soundbible.com/214-Tearing-Paper.html
+    @audio[:doc] = Gosu::Sample.new(self, "audio/doc.mp3")
   end
   
   def update
@@ -60,7 +65,19 @@ class Game < Gosu::Window
       @map.draw(@player.x)
       @player.draw
     end
-    @font.draw("Health: #{@player.health}", 10, 10, 0, 1.0, 1.0, 0xffffff00)
+    @font.draw("Health: #{@player.health}", 10, 4, 0, 1.0, 1.0, 0xffffff00)
+    @font.draw("Mind Power: #{@player.mind_power}", 10, 22, 0, 1.0, 1.0, 0xffffff00)
+    
+    y = 40
+    @messages.reject! do |message, i|
+      blah = Gosu::milliseconds - i
+      color = Gosu::Color::YELLOW
+      color.alpha = [(255 - blah / 2000.0 * 255).to_i, 0].max
+
+      @font.draw(message, width/3, y, 0, 1.0, 1.0, color)
+      y += 20
+      blah > 1800
+    end
     
     if @game_over
       @game_over_font.draw("Game Over", @resolution_x / 5, @resolution_y / 3, 0, 1.0, 1.0, 0xffff0000)
@@ -113,5 +130,9 @@ class Game < Gosu::Window
   
   def play(sound)
     @audio[sound].play
+  end
+  
+  def message(msg)
+    @messages << [msg, Gosu::milliseconds]
   end
 end

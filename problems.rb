@@ -52,7 +52,7 @@ class Problems
   }
   
   def self.next
-    @problems.first
+    #@problems.first
   end
   
   solve = proc { @problems.shift }
