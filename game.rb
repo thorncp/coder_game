@@ -188,6 +188,8 @@ class Game < Gosu::Window
   end
   
   def win
+    total = @player.score + @player.health * 3 + @player.mind_power * 2
+    dialog(["Congratulations, you escaped!","","You have a final score of #{@player.score} + #{@player.health} * 3 + #{@player.mind_power} * 2: #{total}"])
     @win = true
   end
 end
