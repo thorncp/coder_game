@@ -4,7 +4,7 @@ class Desk < Tile
 	Items = {
 	  :coffee => {
 	    :message => "You found coffee!",
-	    :action => proc { |player| player.add_mind_power(3) }
+	    :action => proc { |player| player.add_mind_power(5) }
 	  },
 	  :chips => {
 	    :message => "You found chips, NOM NOM!",

@@ -27,9 +27,9 @@ class Player
     # This is set in update, and used in draw.
     @cur_image = @images[:standing]
     
-    @health = 10
+    @health = 3
     @last_fired = 0
-    @mind_power = 10
+    @mind_power = 0
   end
   
   def draw
