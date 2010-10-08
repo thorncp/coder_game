@@ -20,8 +20,8 @@ class Map
     @projectile_assets[:doc][:image] = Gosu::Image.new(window, "media/doc.png", false)
     
     @projectiles = []
-    
     @clients = []
+    @thoughts = []
     
     lines = File.readlines(filename).map { |line| line.chomp }
     @height = lines.size
@@ -45,6 +45,9 @@ class Map
           nil
         when 'd'
           Desk.new(@window, @tile_images)
+        when 't'
+          @thoughts << Thought.new(x, y)
+          nil
         else
           nil
         end
@@ -55,6 +58,13 @@ class Map
   end
   
   def update(player)
+    @thoughts.reject! do |t|
+      if player.x / 50 == t.x and player.y / 50 == t.y
+        @window.dialog(t.text)
+        true
+      end
+    end
+    
     @left = [[player.x / 50 - @block_width / 2 - 2, 0].max, @width - @block_width - 2].min
     @right = [@left + @block_width + 4, @width - 1].min
     

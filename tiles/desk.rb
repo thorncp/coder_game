@@ -31,9 +31,9 @@ class Desk < Tile
     @searched = true
     @window.play(:desk)
     
-    if actor.health >= 10 and actor.mind_power >= 10
+    if actor.health >= 5 and actor.mind_power >= 10
       item = Items[:nothing]
-    elsif actor.health < 10
+    elsif actor.health < 5
       item = Items[:chips]
     else
       item = Items[:coffee]

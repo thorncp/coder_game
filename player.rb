@@ -144,6 +144,6 @@ class Player
   end
   
   def add_health(x)
-    @health = 10 if (@health += x) > 10
+    @health = 5 if (@health += x) > 5
   end
 end

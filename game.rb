@@ -20,12 +20,13 @@ class Game < Gosu::Window
     
     @audio = {}
     
-    @intro_text = [
+    @dialog = [
       "HRmmmph. Oh man...my head is throbbing.  WTF happened last... WAIT!",
       "I remember! I just started my sweet internship at a Rails shop, and the lead dev was giving me an intro into Ruby. It was so awesome, she stayed late helping me. But I don't remember any of it.",
       "All I remember............is a shadow....just.........looming over me.",
       "AGGHHhhh. Whatever happened, I think I need to get the hell out of here.",
-      "I should probably find a way to stop this bleeding first though."
+      "I should probably find a way to stop this bleeding first though.",
+      "Maybe there's food in that desk over there..."
     ]
     
     # credit: http://soundbible.com/1273-Metal-Reflect.html
@@ -47,7 +48,6 @@ class Game < Gosu::Window
     @audio[:desk] = Gosu::Sample.new(self, "audio/desk.mp3")
     
     @started = Gosu::milliseconds
-    @intro = true
   end
   
   def update
@@ -67,8 +67,8 @@ class Game < Gosu::Window
   
   def draw
     y = 40
-    if @intro
-      make_sure_output_is_koshure(@intro_text).each { |s| @font.draw(s, 50, y += 25, 0, 1.0, 1.0, 0xffffffff) }
+    if @dialog
+      make_sure_output_is_koshure(@dialog).each { |s| @font.draw(s, 50, y += 25, 0, 1.0, 1.0, 0xffffffff) }
       return
     end
     
@@ -127,8 +127,8 @@ class Game < Gosu::Window
   end
   
   def button_down(id)
-    if @intro
-      @intro = false if id == Gosu::KbEscape
+    if @dialog
+      @dialog = nil if id == Gosu::KbEscape
       return
     end
     
@@ -167,6 +167,10 @@ class Game < Gosu::Window
   
   def message(msg)
     @messages << [msg, Gosu::milliseconds]
+  end
+  
+  def dialog(message)
+    @dialog = message
   end
   
   def draw_with_throb(value, message, x, y)

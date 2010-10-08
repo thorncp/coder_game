@@ -1,5 +1,6 @@
 require "gosu"
 require_relative "problems"
+require_relative "thought"
 require_relative "tiles"
 require_relative "projectiles"
 require_relative "player"
