@@ -1,5 +1,5 @@
 class Player
-  attr_reader :x, :y, :dir, :health, :mind_power
+  attr_reader :x, :y, :dir, :health, :mind_power, :score
   
   ImageSize = 50
   HeadRoom = 5 # this is the buffer of how high into an object the player can jump
@@ -30,6 +30,7 @@ class Player
     @health = 3
     @last_fired = 0
     @mind_power = 0
+    @score = 0
   end
   
   def draw
@@ -145,5 +146,9 @@ class Player
   
   def add_health(x)
     @health = 5 if (@health += x) > 5
+  end
+  
+  def increase_score(x)
+    @score += x
   end
 end

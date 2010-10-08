@@ -92,6 +92,7 @@ class Game < Gosu::Window
     
     draw_with_throb(@player.health, "Health: #{@player.health}", 10, 4)
     draw_with_throb(@player.mind_power, "Mind Power: #{@player.mind_power}", 10, 22)
+    @font.draw("Score: #{@player.score}", width - 75, 0, 1.0, 1.0, Gosu::Color::YELLOW) if @player.score > 0
     
     y = 40
     @messages.reject! do |message, i|
