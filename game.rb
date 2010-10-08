@@ -20,6 +20,14 @@ class Game < Gosu::Window
     
     @audio = {}
     
+    @intro_text = [
+      "HRmmmph. Oh man...my head is throbbing.  WTF happened last... WAIT!",
+      "I remember! I just started my sweet internship at a Rails shop, and the lead dev was giving me an intro into Ruby. It was so awesome, she stayed late helping me. But I don't remember any of it.",
+      "All I remember............is a shadow....just.........looming over me.",
+      "AGGHHhhh. Whatever happened, I think I need to get the hell out of here.",
+      "I should probably find a way to stop this bleeding first though."
+    ]
+    
     # credit: http://soundbible.com/1273-Metal-Reflect.html
     @audio[:keyboard] = Gosu::Sample.new(self, "audio/ui_click.mp3")
     
@@ -37,6 +45,9 @@ class Game < Gosu::Window
     
     # creadit: http://soundbible.com/613-Drawer-Opening.html
     @audio[:desk] = Gosu::Sample.new(self, "audio/desk.mp3")
+    
+    @started = Gosu::milliseconds
+    @intro = true
   end
   
   def update
@@ -55,6 +66,12 @@ class Game < Gosu::Window
   end
   
   def draw
+    y = 40
+    if @intro
+      make_sure_output_is_koshure(@intro_text).each { |s| @font.draw(s, 50, y += 25, 0, 1.0, 1.0, 0xffffffff) }
+      return
+    end
+    
     if @popup
       y = 20
       @summaries.each { |s| @font.draw(s, 50, y += 25, 0, 1.0, 1.0, 0xffffffff) }
@@ -68,14 +85,16 @@ class Game < Gosu::Window
       @map.draw(@player.x)
       @player.draw
     end
-    @font.draw("Health: #{@player.health}", 10, 4, 0, 1.0, 1.0, 0xffffff00)
-    @font.draw("Mind Power: #{@player.mind_power}", 10, 22, 0, 1.0, 1.0, 0xffffff00)
+    
+    draw_with_throb(@player.health, "Health: #{@player.health}", 10, 4)
+    draw_with_throb(@player.mind_power, "Mind Power: #{@player.mind_power}", 10, 22)
     
     y = 40
     @messages.reject! do |message, i|
       blah = Gosu::milliseconds - i
-      color = Gosu::Color::YELLOW
-      color.alpha = [(255 - blah / 2000.0 * 255).to_i, 0].max
+      
+      alpha = [(255 - blah / 2000.0 * 255).to_i, 0].max
+      color = Gosu::Color.new(alpha, 255, 255, 0)
 
       @font.draw(message, width/3, y, 0, 1.0, 1.0, color)
       y += 20
@@ -89,7 +108,7 @@ class Game < Gosu::Window
   
   def make_sure_output_is_koshure(arr)
     [*arr].each_with_index.map do |message, index|
-      message.size > 50 ? split_string(message, 50) : arr[index]
+      message.size > 50 ? split_string(message, 55) : arr[index]
     end.flatten
   end
   
@@ -108,6 +127,11 @@ class Game < Gosu::Window
   end
   
   def button_down(id)
+    if @intro
+      @intro = false if id == Gosu::KbEscape
+      return
+    end
+    
     case id
       when Gosu::KbEscape
         if @popup
@@ -119,6 +143,12 @@ class Game < Gosu::Window
       when Gosu::KbF then action
       when Gosu::KbSpace then @player.fire
     end
+  end
+  
+  def throb
+    f = Gosu::milliseconds % 600 / 6000.0
+    
+    x = y = 0.95 + f
   end
   
   def close_popup
@@ -137,5 +167,16 @@ class Game < Gosu::Window
   
   def message(msg)
     @messages << [msg, Gosu::milliseconds]
+  end
+  
+  def draw_with_throb(value, message, x, y)
+    x_factor = y_factor = 1.0
+    color = Gosu::Color::YELLOW
+    if value <= 3
+      x_factor = y_factor = throb
+      color = Gosu::Color.new(0xffff0000)
+    end
+    
+    @font.draw(message, x, y, 0, x_factor, y_factor, color)
   end
 end
