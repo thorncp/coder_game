@@ -13,9 +13,9 @@ class Client < Player
     
     case thing
       when 0..3000
-        move(-1, 0)
+        move(-1, 0) unless solid?(-1, 0)
       when 5000..8000
-        move(1, 0)
+        move(1, 0) unless solid?(1, 0)
     end
     
     if (player.y / 50 - @y / 50).abs < 2
