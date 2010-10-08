@@ -92,7 +92,7 @@ class Game < Gosu::Window
     
     draw_with_throb(@player.health, "Health: #{@player.health}", 10, 4)
     draw_with_throb(@player.mind_power, "Mind Power: #{@player.mind_power}", 10, 22)
-    @font.draw("Score: #{@player.score}", width - 75, 0, 1.0, 1.0, Gosu::Color::YELLOW) if @player.score > 0
+    @font.draw("Score: #{@player.score}", width - 75, 4, 0, 1.0, 1.0, Gosu::Color::YELLOW) if @player.score > 0
     
     y = 40
     @messages.reject! do |message, i|
@@ -134,6 +134,7 @@ class Game < Gosu::Window
   def button_down(id)
     if @dialog
       @dialog = nil if id == Gosu::KbEscape
+      close if @win
       return
     end
     
@@ -187,5 +188,9 @@ class Game < Gosu::Window
     end
     
     @font.draw(message, x, y, 0, x_factor, y_factor, color)
+  end
+  
+  def win
+    @win = true
   end
 end

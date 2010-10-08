@@ -48,6 +48,9 @@ class Map
         when 't'
           @thoughts << Thought.new(x, y)
           nil
+        when 'e'
+          @end_position = {:x => x, :y => y}
+          nil
         else
           nil
         end
@@ -58,6 +61,12 @@ class Map
   end
   
   def update(player)
+    if player.x / 50 == @end_position[:x] and player.y / 50 == @end_position[:y]
+      @window.dialog(["Congratulations, you escaped!","","You have a final score of #{player.score}"])
+      @end_position[:x] = @end_position[:y] = nil
+      @window.win
+    end
+    
     @thoughts.reject! do |t|
       if player.x / 50 == t.x and player.y / 50 == t.y
         @window.dialog(t.text)
@@ -86,7 +95,7 @@ class Map
     
     @clients.each do |client|
       if (@left..@right).include? client.x / 50
-        client.update
+        client.update(player)
       end
     end
     
@@ -110,7 +119,7 @@ class Map
     # now see if we can hit a client
     tile = @clients.find { |c| (x - c.x).abs < 20 and (y + 10 - c.y).abs < 25 }
     if tile and tile != p.owner
-      @clients.delete(tile) if tile.hit(p)
+      @clients.delete(tile) and player.increase_score(5) if tile.hit(p)
       return true
     end
     

@@ -5,7 +5,10 @@ class Client < Player
     @health = 3
   end
   
-  def update
+  # you know things are like spaghetti when the param to the overridden class
+  # is gonna be completely different than the base class
+  def update(player)
+    @dir = player.x < @x ? :left : :right
     thing = Gosu::milliseconds % 10000
     
     case thing
@@ -15,8 +18,10 @@ class Client < Player
         move(1, 0)
     end
     
-    jump if (1800..2000).include? Gosu::milliseconds % 2000
-    fire if (0..20).include? Gosu::milliseconds % 1000
+    if (player.y / 50 - @y / 50).abs < 2
+      jump if (1800..2000).include? Gosu::milliseconds % 2000
+      fire if (0..20).include? Gosu::milliseconds % 1000
+    end
     
     fall
     select_image

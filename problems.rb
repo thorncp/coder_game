@@ -51,8 +51,54 @@ class Problems
     :assert => proc { |result, door| door.success }
   }
   
+  @problems << {
+    :clue => [
+      "Ruby has very powerful ways of traversing and manipulating collections of data. For example, if we have an Array of Clients, and we want to tell each of them to go to hell, we'd do:",
+      "clients.each { |client| client.go_to_hell }",
+      "Why don't you try it, except tell them to go wherever you want.",
+      "Variables given: clients"
+    ],
+    :args => {
+      :clients => [
+        Class.new do
+          attr_reader :success
+          def method_missing(sym, &block)
+            @success = true if sym =~ /go_to_.*/
+          end
+        end.new,
+        Class.new do
+          attr_reader :success
+          def method_missing(sym, &block)
+            @success = true if sym =~ /go_to_.*/
+          end
+        end.new
+      ]
+    },
+    :assert => proc { |result, clients| clients.all? &:success }
+  }
+
+  @problems << {
+    :clue => [
+      "Have a freebie (just hit escape)",
+      "Variables given: none"
+    ],
+    :args => {
+    },
+    :assert => proc { true }
+  }
+
+  @problems << {
+    :clue => [
+      "Have another freebie (just hit escape)",
+      "Variables given: none"
+    ],
+    :args => {
+    },
+    :assert => proc { true }
+  }
+  
   def self.next
-    #@problems.first
+    @problems.first
   end
   
   solve = proc { @problems.shift }
