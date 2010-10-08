@@ -37,7 +37,7 @@ class Problems
   
   @problems << {
     :clue => [
-      "In this problem, you are given the door.  To proceed, simply use your new found knowledge to tell it to open.",
+      "In this problem, you are given the door. To proceed, simply use your new found knowledge to tell it to open.",
       "Variables given: door"
     ],
     :args => {
@@ -49,6 +49,19 @@ class Problems
       end.new
     },
     :assert => proc { |result, door| door.success }
+  }
+  
+  @problems << {
+    :clue => [
+      "Often times you will need to store collections of data. Ruby provides Arrays and Hashes for this (there are many more, but these are by far the most used).",
+      "To create an array, we use square brackets, [ and ]. If we have a set of strings we want in an array, we can do:",
+      '    my_array = ["oh snap", "storing data", "and stuff"]',
+      "Arrays don't have to contain all of the same type of data either.  Try creating an array containing different types, like strings and numbers.",
+      "Variables given: (none)"
+    ],
+    :args => {
+    },
+    :assert => proc { |result| result.map(&:class).uniq.size > 1 }
   }
   
   @problems << {

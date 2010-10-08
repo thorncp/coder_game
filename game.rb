@@ -4,7 +4,7 @@ class Game < Gosu::Window
   def initialize
     @resolution_x = 640
     @resolution_y = 480
-    super(@resolution_x, @resolution_y, false)
+    super(@resolution_x, @resolution_y, true)
 
     self.caption = "Code or Die: The Last Encoding: The Uncoded One"
     @sky = Gosu::Image.new(self, "media/Wallpaper.png", true)
@@ -28,7 +28,7 @@ class Game < Gosu::Window
       "I should probably find a way to stop this bleeding first though.",
       "Maybe there's food in that desk over there...",
       "",
-      "Why do I fell the urge to ESCape?"
+      "Why do I feel the urge to ESCape?"
     ]
     
     # credit: http://soundbible.com/1273-Metal-Reflect.html
@@ -56,17 +56,17 @@ class Game < Gosu::Window
     @game_over = true and return if @player.health <= 0
     
     move_x = 0
-    unless @dialog
+    unless @dialog or @popup
       move_x -= 5 if button_down? Gosu::KbLeft
       move_x += 5 if button_down? Gosu::KbRight
+      
+      @player.update(move_x)
+
+      # Scrolling follows player
+      @camera_x = [[@player.x - @resolution_x / 2, 0].max, @map.width * 50 - @resolution_x].min
+
+      @map.update(@player)
     end
-  
-    @player.update(move_x)
-  
-    # Scrolling follows player
-    @camera_x = [[@player.x - @resolution_x / 2, 0].max, @map.width * 50 - @resolution_x].min
-  
-    @map.update(@player)
   end
   
   def draw
