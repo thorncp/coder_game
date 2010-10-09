@@ -7,7 +7,7 @@ class Game < Gosu::Window
     super(@resolution_x, @resolution_y, true)
 
     self.caption = "Code or Die: The Last Encoding: The Uncoded One"
-    @sky = Gosu::Image.new(self, "media/Wallpaper.png", true)
+    @sky = Gosu::Image.new(self, "media/Wallpaper.png", false)
     @map = Map.new(self, "media/CptnRuby Map.txt")
     @player = Player.new(self, @map.start_position[:x], @map.start_position[:y])
     # The scrolling position is stored as top left corner of the screen.
