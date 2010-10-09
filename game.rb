@@ -4,10 +4,10 @@ class Game < Gosu::Window
   def initialize
     @resolution_x = 640
     @resolution_y = 480
-    super(@resolution_x, @resolution_y, true)
+    super(@resolution_x, @resolution_y, false)
 
     self.caption = "Code or Die: The Last Encoding: The Uncoded One"
-    @sky = Gosu::Image.new(self, "media/Wallpaper.png", false)
+    @sky = Gosu::Image.new(self, "media/Wallpaper.png", true)
     @map = Map.new(self, "media/CptnRuby Map.txt")
     @player = Player.new(self, @map.start_position[:x], @map.start_position[:y])
     # The scrolling position is stored as top left corner of the screen.
@@ -139,7 +139,8 @@ class Game < Gosu::Window
     end
     
     case id
-      when Gosu::KbEscape
+      
+      when Gosu::KbEscape, Gosu::KbEnter, Gosu::KbReturn
         close_popup if @popup
       when Gosu::KbQ then close
       when Gosu::KbUp then @player.jump
