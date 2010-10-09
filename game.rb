@@ -133,7 +133,7 @@ class Game < Gosu::Window
   
   def button_down(id)
     if @dialog
-      @dialog = nil if id == Gosu::KbEscape
+      @dialog = nil if [Gosu::KbEscape, Gosu::KbEnter, Gosu::KbReturn].include? id
       close if @win
       return
     end
